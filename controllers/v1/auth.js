@@ -55,26 +55,27 @@ module.exports.createSession = async function (req, res) {
       type: req.body.type,
     }).select('name _id email password type bio avatar contact subject');
 
-    let isMatch = await bcrypt.compare(req.body.password, user.password);
+    if (user) {
+      let isMatch = await bcrypt.compare(req.body.password, user.password);
+      if (isMatch) {
+        user.password = null;
 
-    if (!isMatch) {
-      return res.status(422).json({
-        message: 'Incorrect email/password',
-      });
+        return res.status(200).json({
+          message: "Sign in successful, here's your token",
+          user: user,
+          token: jwt.sign({ _id: user._id }, env.jwt_secret, {
+            expiresIn: '100000000',
+          }),
+        });
+      }
     }
 
-    user.password = null;
-
-    return res.json(200, {
-      message: "Sign in successful, here's your token",
-      user: user,
-      token: jwt.sign({ _id: user._id }, env.jwt_secret, {
-        expiresIn: '100000000',
-      }),
+    return res.status(422).json({
+      message: 'Incorrect email/password',
     });
   } catch (err) {
     console.log('Err : ', err);
-    return res.json(500, {
+    return res.status(500).json({
       message: 'Internal Server Error',
     });
   }
