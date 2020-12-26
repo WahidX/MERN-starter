@@ -1,0 +1,38 @@
+{
+  "name": "academic-portal",
+  "version": "1.0.0",
+  "description": "Academic portal for assigning assignments and doubt clearing",
+  "main": "server.js",
+  "scripts": {
+    "client-install": "cd client && npm install",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server": "nodemon server.js",
+    "client": "npm start --prefix client",
+    "dev": "concurrently -n 'server,client' -c 'green,blue' \"npm run server\" \"npm run client\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/WahidX/academic-portal.git"
+  },
+  "author": "droidx",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/WahidX/academic-portal/issues"
+  },
+  "homepage": "https://github.com/WahidX/academic-portal#readme",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "bcrypt": "^5.0.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "fs": "0.0.1-security",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.11.8",
+    "multer": "^1.4.2",
+    "nodemon": "^2.0.6",
+    "passport": "^0.4.1",
+    "passport-jwt": "^4.0.0",
+    "path": "^0.12.7",
+    "prettier": "^2.2.1"
+  }
+}
