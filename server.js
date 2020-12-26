@@ -1,9 +1,9 @@
 const express = require('express');
 const app = express();
 const port = process.env.PORT || 8000;
-// const db = require('./config/mongoose');
+const db = require('./configs/mongoose');
 const passport = require('passport');
-// const passportJWT = require('./config/passport-jwt-strategy');
+const passportJWT = require('./configs/passport-jwt-strategy');
 const cors = require('cors');
 
 // to allow react to hit the apis
@@ -30,9 +30,7 @@ app.use('/uploads', express.static(__dirname + '/uploads'));
 app.use(express.urlencoded());
 
 // Middlewares
-// app.use(passport.initialize());
-// app.use(passport.session());
-// app.use(passport.setAuthenticatedUser);
+app.use(passport.initialize());
 
 // Router
 app.get('/', function (req, res) {
@@ -41,7 +39,7 @@ app.get('/', function (req, res) {
   });
 });
 
-// app.use('/', require('./api/'));
+app.use('/api', require('./api/'));
 
 app.listen(port, function (err) {
   if (err) {
