@@ -14,12 +14,16 @@ router.patch(
   authAPI.updateUser
 );
 
+// Email confirmation apis
+// router.get('/econfirmation/:jwt', );
+// router.get('/pconfirmation/:jwt', );
+
 router.post(
   '/profile',
   passport.authenticate('jwt', { session: false }),
   function (req, res) {
     res.status(200).json({
-      message: 'noice',
+      message: "Here's user details",
       data: {
         user: req.user,
       },

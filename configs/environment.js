@@ -12,6 +12,7 @@ const accessLogStream = rfs.createStream('access.log', {
 
 const development = {
   name: 'development',
+  base_url: 'http://localhost:8000/',
   db: 'academic-dev',
   smtp: {
     service: 'gmail',
@@ -35,6 +36,7 @@ const development = {
 
 const production = {
   name: process.env.ACADEMIC_ENVIRONMENT,
+  // base_url: 'http://localhost:8000',
   db: process.env.ACADEMIC_DB,
   smtp: {
     service: 'gmail',

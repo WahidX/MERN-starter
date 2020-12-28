@@ -2,6 +2,7 @@ const User = require('../../models/user');
 const jwt = require('jsonwebtoken');
 const env = require('../../configs/environment');
 const bcrypt = require('bcrypt');
+const { transporter } = require('../../configs/nodemailer');
 
 module.exports.createUser = async function (req, res) {
   try {
@@ -33,12 +34,36 @@ module.exports.createUser = async function (req, res) {
 
     newUser.password = null;
 
+    let tokenToSend;
+    jwt.sign(
+      { _id: newUser._id },
+      env.jwt_secret,
+      {
+        expiresIn: '1d',
+      },
+      (err, token) => {
+        if (err) {
+          console.log('Err: ', err);
+          return res.status(500).json({
+            message: 'Internal Server Error',
+          });
+        }
+
+        const url = `${env.base_url}/auth/econfirmation/${token}`;
+        tokenToSend = token;
+
+        transporter.sendMail({
+          to: newUser.email,
+          subject: 'Confirm Email',
+          html: `<h2>Hi, ${newUser.name}, <p>Please confirm your email.</p><p><a href=${url}>Click Here</a></p></h2>`,
+        });
+      }
+    );
+
     return res.status(200).json({
       message: 'User created Successfully',
       user: newUser,
-      token: jwt.sign({ _id: newUser._id }, env.jwt_secret, {
-        expiresIn: '100000000',
-      }),
+      token: tokenToSend,
     });
   } catch (err) {
     console.log('Err:  ', err);
