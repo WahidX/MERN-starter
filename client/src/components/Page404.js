@@ -1,4 +1,3 @@
-import { authorize } from 'passport';
 import React from 'react';
 
 function Page404(props) {

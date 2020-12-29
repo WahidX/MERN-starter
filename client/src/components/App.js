@@ -19,7 +19,9 @@ import {
   ButtonAppBar,
   Page404,
   Profile,
+  CustomizedSnackbars,
 } from './';
+import { Button } from '@material-ui/core';
 
 const PrivateRoute = (privateRouteProps) => {
   const { isLoggedin, path, component: Component } = privateRouteProps;
@@ -44,6 +46,16 @@ class App extends React.Component {
     return (
       <Router>
         <ButtonAppBar />
+
+        {/* <CustomizedSnackbars
+          message="Hello X"
+          variant="success"
+          duration="2000"
+          open={snackbarOpen}
+        /> */}
+
+        {/* <Button onClick={handleOpen}>SnackBar</Button> */}
+
         <Switch>
           <Route exact path="/" component={Home} />
           <Route exact path="/signup" component={Signup} />
