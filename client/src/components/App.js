@@ -11,7 +11,15 @@ import {
 import { fetchUser } from '../actions/user';
 
 // Components
-import { Home, Signup, Login, Footer, ButtonAppBar } from './';
+import {
+  Home,
+  Signup,
+  Login,
+  Footer,
+  ButtonAppBar,
+  Page404,
+  Profile,
+} from './';
 
 const PrivateRoute = (privateRouteProps) => {
   const { isLoggedin, path, component: Component } = privateRouteProps;
@@ -40,13 +48,13 @@ class App extends React.Component {
           <Route exact path="/" component={Home} />
           <Route exact path="/signup" component={Signup} />
           <Route exact path="/login" component={Login} />
-          {/* <PrivateRoute
+          <PrivateRoute
             exact
             path="/profile"
             component={Profile}
             isLoggedin={isLoggedin}
-          /> */}
-          {/* <Route component={Page404} /> */}
+          />
+          <Route component={Page404} />
         </Switch>
         <Footer />
       </Router>
