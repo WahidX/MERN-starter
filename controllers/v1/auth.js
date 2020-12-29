@@ -49,7 +49,7 @@ module.exports.createUser = async function (req, res) {
           });
         }
 
-        const url = `${env.base_url}/auth/econfirmation/${token}`;
+        const url = `${env.base_url}/api/${env.api_v}/auth/econfirmation/${token}`;
         tokenToSend = token;
 
         transporter.sendMail({
@@ -192,6 +192,29 @@ module.exports.updateUser = async function (req, res) {
     console.error(err);
     return res.status(501).json({
       message: 'Internal server error',
+    });
+  }
+};
+
+module.exports.confirmEmail = async function (req, res) {
+  // '/econfirmation/:jwt'
+  try {
+    const jwtContent = jwt.verify(req.params.jwt, env.jwt_secret);
+    let user = await User.findById(jwtContent._id);
+    if (user) {
+      user.emailAuthenticated = true;
+      user.save();
+
+      return res.redirect('http://localhost:3000');
+    } else {
+      return res.status(422).json({
+        message: 'Token expired please initiate again',
+      });
+    }
+  } catch (err) {
+    console.log('Err: ', err);
+    return res.status(501).json({
+      message: 'Internal Server Error',
     });
   }
 };

@@ -12,7 +12,8 @@ const accessLogStream = rfs.createStream('access.log', {
 
 const development = {
   name: 'development',
-  base_url: 'http://localhost:8000/',
+  api_v: process.env.AUTH_API_V,
+  base_url: process.env.AUTH_BASE_URL,
   db: 'academic-dev',
   smtp: {
     service: 'gmail',
@@ -20,8 +21,8 @@ const development = {
     port: 587,
     secure: false,
     auth: {
-      user: 'mailer.droidx',
-      pass: 'Never@0%',
+      user: process.env.MAIL_ADDR,
+      pass: process.env.MAIL_PASS,
     },
   },
   google_client_id: '',
@@ -36,7 +37,8 @@ const development = {
 
 const production = {
   name: process.env.ACADEMIC_ENVIRONMENT,
-  // base_url: 'http://localhost:8000',
+  api_v: process.env.AUTH_API_V,
+  base_url: process.env.AUTH_BASE_URL,
   db: process.env.ACADEMIC_DB,
   smtp: {
     service: 'gmail',
@@ -44,8 +46,8 @@ const production = {
     port: 587,
     secure: false,
     auth: {
-      user: process.env.ACADEMIC_GMAIL_USERNAME,
-      pass: process.env.ACADEMIC_GMAIL_PASSWORD,
+      user: process.env.MAIL_ADDR,
+      pass: process.env.MAIL_PASS,
     },
   },
   google_client_id: process.env.ACADEMIC_GOOGLE_CLIENT_ID,

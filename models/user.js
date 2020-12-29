@@ -13,6 +13,10 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    emailAuthenticated: {
+      type: Boolean,
+      default: false,
+    },
     type: {
       type: String,
       required: true,
@@ -41,7 +45,7 @@ const userSchema = new mongoose.Schema(
 );
 
 // name and type together primary key
-userSchema.index({ name: 1, type: 1 }, { unique: true });
+userSchema.index({ email: 1, type: 1 }, { unique: true });
 
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {

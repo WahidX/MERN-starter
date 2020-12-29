@@ -15,7 +15,7 @@ router.patch(
 );
 
 // Email confirmation apis
-// router.get('/econfirmation/:jwt', );
+router.get('/econfirmation/:jwt', authAPI.confirmEmail);
 // router.get('/pconfirmation/:jwt', );
 
 router.post(
