@@ -13,6 +13,11 @@ export const UPDATE_START = 'UPDATE_START';
 export const UPDATE_FAILED = 'UPDATE_FAILED';
 export const UPDATE_SUCCESS = 'UPDATE_SUCCESS';
 
-export const AUTHENTICATE_USER = 'AUTHENTICATE_USER';
+// Extra Auths
+export const AUTHENTICATE_USER = 'AUTHENTICATE_USER'; // Session restore
 export const LOGOUT = 'LOGOUT';
 export const CLEAR_AUTH_STATE = 'CLEAR_AUTH_STATE';
+
+// Snackbar
+export const SET_SNACKBAR = 'SET_SNACKBAR';
+export const CLEAR_SNACKBAR = 'CLEAR_SNACKBAR';

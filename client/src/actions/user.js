@@ -14,6 +14,8 @@ import {
   LOGOUT,
   AUTHENTICATE_USER,
 } from './actionTypes';
+
+import { setSnackBar } from './snackbar';
 import { APIurls } from '../helpers/urls';
 
 // Login actions
@@ -59,12 +61,14 @@ export function createSession(email, password, type) {
     axios(config)
       .then(function (response) {
         dispatch(loginSuccess(response.data.user));
+        dispatch(setSnackBar('success', 'Logged in Successfully !', '3000'));
         console.log(JSON.stringify(response.data));
         localStorage.setItem('token', response.data.token);
       })
       .catch(function (error) {
         console.log(error.message);
         dispatch(loginFailed(error.message));
+        dispatch(setSnackBar('error', error.message, '3000'));
       });
   };
 }
@@ -114,11 +118,12 @@ export function createUser(name, email, password, confirm_password, type) {
     axios(config)
       .then(function (response) {
         dispatch(signupSuccess(response.data.user));
-        console.log(JSON.stringify(response.data));
+        dispatch(setSnackBar('success', 'User created successfully!', '3000'));
         localStorage.setItem('token', response.data.token);
       })
       .catch(function (error) {
         dispatch(signupFailed(error.message));
+        dispatch(setSnackBar('error', error.message, '3000'));
         console.log(error.message);
       });
   };
@@ -157,6 +162,7 @@ export function logoutUser() {
   return (dispatch) => {
     localStorage.removeItem('token');
     dispatch(logout());
+    dispatch(setSnackBar('success', 'Logged out!', '3000'));
   };
 }
 
@@ -195,9 +201,13 @@ export function updateUser(name, email, type, bio, avatar, contact, subject) {
       .then(function (response) {
         console.log('reponse: ', response.data);
         dispatch(updateSuccess(response.data.user));
+        dispatch(
+          setSnackBar('success', 'Details updated Successfully!', '3000')
+        );
       })
       .catch(function (error) {
         dispatch(updateFailed(error.message));
+        dispatch(setSnackBar('error', error.message, '3000'));
       });
   };
 }
