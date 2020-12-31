@@ -107,13 +107,24 @@ module.exports.createSession = async function (req, res) {
 };
 
 module.exports.updateUser = async function (req, res) {
-  if (!req.body.email || !req.body.name || !req.body.type) {
-    return res.status(404).json({
-      message: 'Wrong update content',
-    });
-  }
-
   try {
+    let isMatch = await bcrypt.compare(
+      req.body.old_password,
+      req.user.password
+    );
+
+    if (!isMatch) {
+      return res.status(401).json({
+        message: 'Incorrect Password',
+      });
+    }
+
+    if (!req.body.email || !req.body.name || !req.body.type) {
+      return res.status(404).json({
+        message: 'Wrong update content',
+      });
+    }
+
     // Checking the email is available or not
     let user = await User.findOne({
       email: req.body.email,
@@ -149,7 +160,7 @@ module.exports.updateUser = async function (req, res) {
 
     // Updating
     let changed = false;
-
+    // will change this with ...
     if (user.name !== req.body.name) {
       user.name = req.body.name;
       changed = true;
@@ -177,6 +188,13 @@ module.exports.updateUser = async function (req, res) {
 
     if (user.contact !== req.body.contact) {
       user.contact = req.body.contact;
+      changed = true;
+    }
+
+    if (req.body.old_password !== req.body.password) {
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword = await bcrypt.hash(req.body.password, salt);
+      user.password = hashedPassword;
       changed = true;
     }
 

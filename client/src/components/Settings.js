@@ -54,6 +54,7 @@ function Settings(props) {
   const [contact, setContact] = useInput(props.user.user.contact);
   const [subject, setSubject] = useInput(props.user.user.subject);
   const [bio, setBio] = useInput(props.user.user.bio);
+  const [password, setPassword] = useInput('');
 
   const [open, setOpen] = useState(false);
 
@@ -80,17 +81,27 @@ function Settings(props) {
   };
 
   const handleConfirm = () => {
-    let password = document.getElementById('old_password').value;
+    let old_password = document.getElementById('old_password').value;
     // password validation
     if (password.trim().length === 0) {
       console.log('blank');
       return;
     }
-    console.log(password);
+    // console.log(old_password);
     // check password
 
     props.dispatch(
-      updateUser(name, email, props.user.user.type, bio, '', contact, subject)
+      updateUser(
+        name,
+        email,
+        props.user.user.type,
+        bio,
+        '',
+        contact,
+        subject,
+        password,
+        old_password
+      )
     );
     // After dispatching startUpdate
     handleDialogClose();
@@ -145,6 +156,17 @@ function Settings(props) {
             value={email}
             onChange={setEmail}
           />
+          <TextField
+            id="password"
+            className={classes.formItems}
+            type="password"
+            label="New Password"
+            variant="outlined"
+            required
+            value={password}
+            onChange={setPassword}
+          />
+
           <TextField
             id="name"
             className={classes.formItems}

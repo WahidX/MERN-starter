@@ -173,7 +173,17 @@ export function logout() {
 }
 
 // User Update actions
-export function updateUser(name, email, type, bio, avatar, contact, subject) {
+export function updateUser(
+  name,
+  email,
+  type,
+  bio,
+  avatar,
+  contact,
+  subject,
+  password,
+  old_password
+) {
   return (dispatch) => {
     dispatch(startUpdate());
 
@@ -185,6 +195,8 @@ export function updateUser(name, email, type, bio, avatar, contact, subject) {
       avatar: avatar,
       contact: contact,
       subject: subject,
+      password: password,
+      old_password: old_password,
     });
 
     var config = {
