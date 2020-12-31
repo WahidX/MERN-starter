@@ -10,10 +10,12 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
-  DialogContentText,
   DialogTitle,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+
+import { setSnackBar } from '../actions/snackbar';
+import { updateUser } from '../actions/user';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -56,6 +58,20 @@ function Settings(props) {
   const [open, setOpen] = useState(false);
 
   let handleSubmit = (e) => {
+    console.log(email, name, contact, subject, bio);
+    // validate all the fields
+    if (
+      !email ||
+      email.trim().length === 0 ||
+      !name ||
+      name.trim().length === 0 ||
+      !contact ||
+      contact === 0
+    ) {
+      props.dispatch(setSnackBar('error', 'Required field empty', 3000));
+      return;
+    }
+
     setOpen(true);
   };
 
@@ -63,19 +79,19 @@ function Settings(props) {
     setOpen(false);
   };
 
-  // let password = '';
-  // setPassword(e){
-
-  // }
   const handleConfirm = () => {
     let password = document.getElementById('old_password').value;
+    // password validation
     if (password.trim().length === 0) {
       console.log('blank');
       return;
     }
     console.log(password);
-    console.log(email, name, contact, subject, bio);
+    // check password
 
+    props.dispatch(
+      updateUser(name, email, props.user.user.type, bio, '', contact, subject)
+    );
     // After dispatching startUpdate
     handleDialogClose();
   };
@@ -146,6 +162,7 @@ function Settings(props) {
             label="Contact No"
             variant="outlined"
             placeholder="+91"
+            required
             value={contact}
             onChange={setContact}
           />
