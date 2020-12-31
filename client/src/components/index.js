@@ -8,6 +8,7 @@ import ButtonAppBar from './AppBar';
 import Page404 from './Page404';
 import Profile from './Profile';
 import CustomizedSnackbars from './SnackBar';
+import Settings from './Settings';
 
 export {
   App,
@@ -20,4 +21,5 @@ export {
   Page404,
   Profile,
   CustomizedSnackbars,
+  Settings,
 };

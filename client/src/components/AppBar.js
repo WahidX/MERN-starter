@@ -128,7 +128,9 @@ function ButtonAppBar(props) {
       <MenuItem onClick={handleMenuClose}>
         <Link to="profile">Profile</Link>
       </MenuItem>
-      <MenuItem onClick={handleMenuClose}>Settings</MenuItem>
+      <MenuItem onClick={handleMenuClose}>
+        <Link to="/settings">Settings</Link>
+      </MenuItem>
       <MenuItem
         onClick={() => {
           handleMenuClose();

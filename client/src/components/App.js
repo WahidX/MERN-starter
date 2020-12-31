@@ -20,6 +20,7 @@ import {
   Page404,
   Profile,
   CustomizedSnackbars,
+  Settings,
 } from './';
 
 const PrivateRoute = (privateRouteProps) => {
@@ -51,12 +52,20 @@ class App extends React.Component {
           <Route exact path="/" component={Home} />
           <Route exact path="/signup" component={Signup} />
           <Route exact path="/login" component={Login} />
+
           <PrivateRoute
             exact
             path="/profile"
             component={Profile}
             isLoggedin={isLoggedin}
           />
+          <PrivateRoute
+            exact
+            path="/settings"
+            component={Settings}
+            isLoggedin={isLoggedin}
+          />
+
           <Route component={Page404} />
         </Switch>
         <Footer />
