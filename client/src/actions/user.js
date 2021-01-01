@@ -66,9 +66,9 @@ export function createSession(email, password, type) {
         localStorage.setItem('token', response.data.token);
       })
       .catch(function (error) {
-        console.log(error.message);
+        console.log(error);
         dispatch(loginFailed(error.message));
-        dispatch(setSnackBar('error', error.message, '3000'));
+        // dispatch(setSnackBar('error', error.data.message, '3000'));
       });
   };
 }

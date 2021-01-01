@@ -1,13 +1,20 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import { Button, TextField } from '@material-ui/core';
+import { Button, TextField, Paper, Tabs, Tab } from '@material-ui/core';
 
 import { createSession } from '../actions/user';
 
 function Login(props) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  // For the type tabs
+  const [type, setType] = useState('teacher');
+
+  const handleTypeChange = (event, newType) => {
+    setType(newType);
+  };
 
   let onChangeEmail = (e) => {
     setEmail(e.target.value);
@@ -23,7 +30,7 @@ function Login(props) {
 
     if (emailContent.length !== 0 && password.length !== 0) {
       console.log(emailContent, password);
-      props.dispatch(createSession(emailContent, password, 'teacher'));
+      props.dispatch(createSession(emailContent, password, type));
       setPassword('');
     }
   }
@@ -36,6 +43,21 @@ function Login(props) {
   return (
     <form className="form-container">
       <p className="form-title">Login</p>
+
+      <Paper square>
+        <Tabs
+          variant="fullWidth"
+          value={type}
+          indicatorColor="secondary"
+          textColor="primary"
+          onChange={handleTypeChange}
+          centered
+        >
+          <Tab label="Teacher" value="teacher" />
+          <Tab label="Student" value="student" />
+        </Tabs>
+      </Paper>
+
       <TextField
         id="email"
         label="email"
@@ -56,6 +78,8 @@ function Login(props) {
         type="submit"
         className="submit-btn"
         disabled={inProgress}
+        variant="contained"
+        color="primary"
         onClick={onSubmit}
       >
         Login

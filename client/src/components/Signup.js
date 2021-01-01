@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import { Button, TextField } from '@material-ui/core';
+import { Button, TextField, Paper, Tabs, Tab } from '@material-ui/core';
 
 import { createUser } from '../actions/user';
 
@@ -19,29 +19,12 @@ function Signup(props) {
   const [name, setName] = useInput('');
   const [confirmPassword, setConfirmPassword] = useInput('');
 
-  // export default function DisabledTabs() {
-  //   const [value, setValue] = React.useState(2);
+  // For the type tabs
+  const [type, setType] = useState('teacher');
 
-  //   const handleChange = (event, newValue) => {
-  //     setValue(newValue);
-  //   };
-
-  //   return (
-  //     <Paper square>
-  //       <Tabs
-  //         value={value}
-  //         indicatorColor="primary"
-  //         textColor="primary"
-  //         onChange={handleChange}
-  //         aria-label="disabled tabs example"
-  //       >
-  //         <Tab label="Active" />
-  //         <Tab label="Disabled" disabled />
-  //         <Tab label="Active" />
-  //       </Tabs>
-  //     </Paper>
-  //   );
-  // }
+  const handleTypeChange = (event, newType) => {
+    setType(newType);
+  };
 
   function onSubmit(e) {
     e.preventDefault();
@@ -58,15 +41,10 @@ function Signup(props) {
       password.length !== 0 &&
       nameContent.length !== 0
     ) {
-      console.log(nameContent, emailContent, password);
+      // console.log(type);
+      // console.log(nameContent, emailContent, password);
       props.dispatch(
-        createUser(
-          nameContent,
-          emailContent,
-          password,
-          confirmPassword,
-          'teacher'
-        )
+        createUser(nameContent, emailContent, password, confirmPassword, type)
       );
     }
   }
@@ -81,6 +59,20 @@ function Signup(props) {
   return (
     <form className="form-container">
       <p className="form-title">Signup</p>
+
+      <Paper square>
+        <Tabs
+          variant="fullWidth"
+          value={type}
+          indicatorColor="secondary"
+          textColor="primary"
+          onChange={handleTypeChange}
+          centered
+        >
+          <Tab label="Teacher" value="teacher" />
+          <Tab label="Student" value="student" />
+        </Tabs>
+      </Paper>
 
       <TextField
         id="name"
@@ -118,6 +110,8 @@ function Signup(props) {
         type="submit"
         className="submit-btn"
         disabled={inProgress}
+        variant="contained"
+        color="primary"
         onClick={onSubmit}
       >
         Signup
