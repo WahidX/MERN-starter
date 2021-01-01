@@ -15,12 +15,6 @@ import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
 
-import { connect } from 'react-redux';
-
-import { Link } from 'react-router-dom';
-import { logoutUser } from '../actions/user';
-import { Button } from '@material-ui/core';
-
 const useStyles = makeStyles((theme) => ({
   grow: {
     flexGrow: 1,
@@ -30,7 +24,6 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     display: 'none',
-    textDecoration: 'none',
     [theme.breakpoints.up('sm')]: {
       display: 'block',
     },
@@ -86,7 +79,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function ButtonAppBar(props) {
+export default function PrimarySearchAppBar() {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -111,12 +104,6 @@ function ButtonAppBar(props) {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
-  let logoutHandle = () => {
-    props.dispatch(logoutUser());
-  };
-
-  let isLoggedin = props.user.isLoggedin;
-
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
     <Menu
@@ -128,20 +115,8 @@ function ButtonAppBar(props) {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>
-        <Link to="/profile">Profile</Link>
-      </MenuItem>
-      <MenuItem onClick={handleMenuClose}>
-        <Link to="/settings">Settings</Link>
-      </MenuItem>
-      <MenuItem
-        onClick={() => {
-          handleMenuClose();
-          logoutHandle();
-        }}
-      >
-        Logout
-      </MenuItem>
+      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
     </Menu>
   );
 
@@ -199,9 +174,7 @@ function ButtonAppBar(props) {
             <MenuIcon />
           </IconButton>
           <Typography className={classes.title} variant="h6" noWrap>
-            <Link to="/" style={{ color: 'white' }}>
-              MERN Starter
-            </Link>
+            Material-UI
           </Typography>
           <div className={classes.search}>
             <div className={classes.searchIcon}>
@@ -217,57 +190,39 @@ function ButtonAppBar(props) {
             />
           </div>
           <div className={classes.grow} />
-          {!isLoggedin && (
-            <React.Fragment>
-              <Button>
-                <Link to="/login">Login</Link>
-              </Button>
-              <Button>
-                <Link to="/signup">Signup</Link>
-              </Button>
-            </React.Fragment>
-          )}
-          {isLoggedin && (
-            <div className={classes.sectionDesktop}>
-              <IconButton aria-label="show 4 new mails" color="inherit">
-                <Badge badgeContent={4} color="secondary">
-                  <MailIcon />
-                </Badge>
-              </IconButton>
-              <IconButton
-                aria-label="show 17 new notifications"
-                color="inherit"
-              >
-                <Badge badgeContent={17} color="secondary">
-                  <NotificationsIcon />
-                </Badge>
-              </IconButton>
-              <IconButton
-                edge="end"
-                aria-label="account of current user"
-                aria-controls={menuId}
-                aria-haspopup="true"
-                onClick={handleProfileMenuOpen}
-                color="inherit"
-              >
-                <AccountCircle />
-              </IconButton>
-            </div>
-          )}
-
-          {isLoggedin && (
-            <div className={classes.sectionMobile}>
-              <IconButton
-                aria-label="show more"
-                aria-controls={mobileMenuId}
-                aria-haspopup="true"
-                onClick={handleMobileMenuOpen}
-                color="inherit"
-              >
-                <MoreIcon />
-              </IconButton>
-            </div>
-          )}
+          <div className={classes.sectionDesktop}>
+            <IconButton aria-label="show 4 new mails" color="inherit">
+              <Badge badgeContent={4} color="secondary">
+                <MailIcon />
+              </Badge>
+            </IconButton>
+            <IconButton aria-label="show 17 new notifications" color="inherit">
+              <Badge badgeContent={17} color="secondary">
+                <NotificationsIcon />
+              </Badge>
+            </IconButton>
+            <IconButton
+              edge="end"
+              aria-label="account of current user"
+              aria-controls={menuId}
+              aria-haspopup="true"
+              onClick={handleProfileMenuOpen}
+              color="inherit"
+            >
+              <AccountCircle />
+            </IconButton>
+          </div>
+          <div className={classes.sectionMobile}>
+            <IconButton
+              aria-label="show more"
+              aria-controls={mobileMenuId}
+              aria-haspopup="true"
+              onClick={handleMobileMenuOpen}
+              color="inherit"
+            >
+              <MoreIcon />
+            </IconButton>
+          </div>
         </Toolbar>
       </AppBar>
       {renderMobileMenu}
@@ -275,11 +230,3 @@ function ButtonAppBar(props) {
     </div>
   );
 }
-
-function mapStateToProps(state) {
-  return {
-    user: state.user,
-  };
-}
-
-export default connect(mapStateToProps)(ButtonAppBar);
