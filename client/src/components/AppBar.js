@@ -219,11 +219,19 @@ function ButtonAppBar(props) {
           <div className={classes.grow} />
           {!isLoggedin && (
             <React.Fragment>
-              <Button>
-                <Link to="/login">Login</Link>
+              <Button
+                variant="contained"
+                color="primary"
+                style={{ marginRight: '10px' }}
+              >
+                <Link to="/login" style={{ color: 'white' }}>
+                  Login
+                </Link>
               </Button>
-              <Button>
-                <Link to="/signup">Signup</Link>
+              <Button variant="contained" color="primary">
+                <Link to="/signup" style={{ color: 'white' }}>
+                  Signup
+                </Link>
               </Button>
             </React.Fragment>
           )}

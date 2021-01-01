@@ -6,8 +6,6 @@ import AlternateEmailIcon from '@material-ui/icons/AlternateEmail';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 
 function Profile(props) {
-  let inProgress = props.user.inProgress;
-
   if (!props.user.isLoggedin) {
     return <Redirect to="/login" />;
   }

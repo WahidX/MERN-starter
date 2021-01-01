@@ -54,7 +54,6 @@ function Settings(props) {
   const [contact, setContact] = useInput(props.user.user.contact);
   const [subject, setSubject] = useInput(props.user.user.subject);
   const [bio, setBio] = useInput(props.user.user.bio);
-  const [password, setPassword] = useInput('');
 
   const [open, setOpen] = useState(false);
 
@@ -139,6 +138,8 @@ function Settings(props) {
     return <Redirect to="/login" />;
   }
 
+  let inProgress = props.user.inProgress;
+
   return (
     <React.Fragment>
       <form>
@@ -221,6 +222,7 @@ function Settings(props) {
             color="primary"
             className={classes.formItems + ' updBtn'}
             onClick={handleSubmit}
+            disabled={inProgress}
           >
             Update
           </Button>

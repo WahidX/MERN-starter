@@ -116,12 +116,14 @@ function Signup(props) {
       >
         Signup
       </Button>
-      <a href="#">
+
+      {/*  For Google's Oauth */}
+      {/* <a href="#">
         <img
           alt="sign up with google"
           src="https://www.flaticon.com/svg/static/icons/svg/281/281764.svg"
         />
-      </a>
+      </a> */}
     </form>
   );
 }
