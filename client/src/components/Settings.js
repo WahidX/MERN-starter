@@ -97,13 +97,14 @@ function Settings(props) {
     setOpen(false);
   };
 
-  const handleConfirm = () => {
-    let old_password = document.getElementById('old_password').value;
+  let handleConfirm = () => {
+    let password = document.getElementById('dialog-password').value;
 
-    if (old_password.length === 0) {
+    if (password.length === 0) {
       setSnackBar('error', 'Password is empty', 3000);
       return;
     }
+    console.log('Hello: ', password);
 
     props.dispatch(
       updateUser(
@@ -114,7 +115,7 @@ function Settings(props) {
         '',
         contact,
         subject,
-        old_password
+        password
       )
     );
 
@@ -143,11 +144,11 @@ function Settings(props) {
     props.dispatch(changePassword(oldPassword, newPassword, confirmPassword));
   };
 
-  let PasswordConfirmDialog = (props) => {
+  let PasswordConfirmDialog = () => {
     return (
       <Dialog
         open={open}
-        onClose={handleConfirm}
+        // onClose={handleConfirm}
         aria-labelledby="form-dialog-title"
       >
         <DialogTitle id="form-dialog-title">Please Confirm</DialogTitle>
@@ -155,7 +156,7 @@ function Settings(props) {
           <TextField
             autoFocus
             margin="dense"
-            id="old_password"
+            id="dialog-password"
             label="Password"
             type="password"
             fullWidth
