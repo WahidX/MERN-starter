@@ -11,6 +11,9 @@ import {
   UPDATE_START,
   UPDATE_FAILED,
   UPDATE_SUCCESS,
+  CHANGE_PASSWORD_START,
+  CHANGE_PASSWORD_SUCCESS,
+  CHANGE_PASSWORD_FAILED,
 } from '../actions/actionTypes';
 
 const initialAuthState = {
@@ -25,10 +28,12 @@ export default function user(state = initialAuthState, action) {
     case UPDATE_START:
     case SIGNUP_START:
     case LOGIN_START:
+    case CHANGE_PASSWORD_START:
       return {
         ...state,
         inProgress: true,
       };
+
     case UPDATE_SUCCESS:
     case SIGNUP_SUCCESS:
     case LOGIN_SUCCESS:
@@ -39,14 +44,17 @@ export default function user(state = initialAuthState, action) {
         isLoggedin: true,
         error: null,
       };
+
     case UPDATE_FAILED:
     case SIGNUP_FAILED:
+    case CHANGE_PASSWORD_FAILED:
     case LOGIN_FAILED:
       return {
         ...state,
         error: action.error,
         inProgress: false,
       };
+
     case AUTHENTICATE_USER:
       return {
         ...state,
@@ -59,6 +67,7 @@ export default function user(state = initialAuthState, action) {
         user: {},
         isLoggedin: false,
       };
+    case CHANGE_PASSWORD_SUCCESS:
     case CLEAR_AUTH_STATE:
       return {
         ...state,

@@ -133,17 +133,14 @@ function Settings(props) {
       confirmPassword.length === 0
     ) {
       props.dispatch(setSnackBar('error', 'Fields empty', 3000));
-      console.log('blank');
       return;
     }
     if (newPassword !== confirmPassword) {
       props.dispatch(setSnackBar('error', 'Passwords not matching', 3000));
-      console.log('passwords not matching');
       return;
     }
 
     props.dispatch(changePassword(oldPassword, newPassword, confirmPassword));
-    console.log('got it');
   };
 
   let PasswordConfirmDialog = (props) => {

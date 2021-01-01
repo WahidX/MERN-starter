@@ -228,3 +228,39 @@ module.exports.confirmEmail = async function (req, res) {
     });
   }
 };
+
+module.exports.changePassword = async function (req, res) {
+  try {
+    if (
+      !req.body.oldPassword ||
+      !req.body.oldPassword ||
+      !req.body.confirmPassword ||
+      req.body.newPassword !== req.body.confirmPassword
+    ) {
+      return res.status(400).json({
+        message: 'Invalid request',
+      });
+    }
+
+    let isMatch = await bcrypt.compare(req.body.oldPassword, req.user.password);
+    if (isMatch) {
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword = await bcrypt.hash(req.body.newPassword, salt);
+      req.user.password = hashedPassword;
+      req.user.save();
+
+      return res.status(200).json({
+        message: 'Password Changed Successfully',
+      });
+    }
+
+    return res.status(401).json({
+      message: 'Incorrect Password',
+    });
+  } catch (err) {
+    console.log('Err: ', err);
+    return res.status(501).json({
+      message: 'Internal Server Error',
+    });
+  }
+};

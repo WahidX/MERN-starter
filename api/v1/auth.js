@@ -14,6 +14,12 @@ router.patch(
   authAPI.updateUser
 );
 
+router.patch(
+  '/change-password',
+  passport.authenticate('jwt', { session: false }),
+  authAPI.changePassword
+);
+
 // Email confirmation apis
 router.get('/econfirmation/:jwt', authAPI.confirmEmail);
 // router.get('/pconfirmation/:jwt', );
