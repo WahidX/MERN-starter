@@ -1,88 +1,47 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import { Button, Grid, TextField } from '@material-ui/core';
+import {
+  Button,
+  Card,
+  CardContent,
+  Grid,
+  TextField,
+  Typography,
+} from '@material-ui/core';
 import AlternateEmailIcon from '@material-ui/icons/AlternateEmail';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-// import { updateUser } from '../actions/user';
 
 function Profile(props) {
-  const [name, setName] = useState(props.user.user.name);
-  const [email, setEmail] = useState(props.user.user.email);
   let inProgress = props.user.inProgress;
 
   if (!props.user.isLoggedin) {
     return <Redirect to="/login" />;
   }
 
-  let onChangeName = (e) => {
-    setName(e.target.value);
-  };
-
-  let onChangeEmail = (e) => {
-    setEmail(e.target.value);
-  };
-
-  function onSubmit(e) {
-    e.preventDefault();
-    let emailContent = email.trim();
-    let nameContent = name.trim();
-
-    if (emailContent.length !== 0 && nameContent.length !== 0) {
-      console.log(nameContent, emailContent);
-      //   props.dispatch(updateUser(nameContent, emailContent));
-    }
-  }
+  let { name, email, bio, subject, type, contact } = props.user.user;
 
   return (
     <React.Fragment>
-      <div id="profile-page-container">
-        <div id="cover-container">
-          <img className="cover-img" />
-        </div>
+      <Card>
+        <CardContent>
+          <Typography>{type}</Typography>
 
-        <div className="profile-update-container">
-          <img
-            className="user-dp"
-            src="https://cdn3.iconfinder.com/data/icons/users-6/100/2-256.png"
-          />
-          <Grid container spacing={1} alignItems="flex-end">
-            <Grid item>
-              <AccountCircleIcon />
-            </Grid>
-            <Grid item>
-              <TextField
-                id="name-field"
-                label="name"
-                value={name}
-                onChange={onChangeName}
-              />
-            </Grid>
-          </Grid>
+          <Typography style={{ fontSize: '2rem' }}>
+            <AccountCircleIcon />
+            &nbsp;{name}
+          </Typography>
 
-          <Grid container spacing={1} alignItems="flex-end">
-            <Grid item>
-              <AlternateEmailIcon />
-            </Grid>
-            <Grid item>
-              <TextField
-                id="email-field"
-                label="email"
-                value={email}
-                onChange={onChangeEmail}
-              />
-            </Grid>
-          </Grid>
-          <Button
-            disabled={inProgress}
-            id="update-btn"
-            color="primary"
-            onClick={onSubmit}
-          >
-            update
-          </Button>
-        </div>
-      </div>
+          <Typography style={{ fontSize: '2rem' }}>
+            <AlternateEmailIcon />
+            &nbsp;{email}
+          </Typography>
+          <Typography>Bio: {bio}</Typography>
+
+          <Typography>Subject: {subject}</Typography>
+          <Typography>Contact: {contact}</Typography>
+        </CardContent>
+      </Card>
     </React.Fragment>
   );
 }
