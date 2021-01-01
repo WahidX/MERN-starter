@@ -108,10 +108,7 @@ module.exports.createSession = async function (req, res) {
 
 module.exports.updateUser = async function (req, res) {
   try {
-    let isMatch = await bcrypt.compare(
-      req.body.old_password,
-      req.user.password
-    );
+    let isMatch = await bcrypt.compare(req.body.password, req.user.password);
 
     if (!isMatch) {
       return res.status(401).json({
@@ -191,16 +188,11 @@ module.exports.updateUser = async function (req, res) {
       changed = true;
     }
 
-    if (req.body.old_password !== req.body.password) {
-      const salt = await bcrypt.genSalt(10);
-      const hashedPassword = await bcrypt.hash(req.body.password, salt);
-      user.password = hashedPassword;
-      changed = true;
-    }
-
     if (changed) {
       await user.save();
     }
+
+    user.password = null;
 
     return res.status(200).json({
       message: 'user updated successfully',

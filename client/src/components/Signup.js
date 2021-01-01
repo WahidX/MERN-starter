@@ -6,26 +6,42 @@ import { Button, TextField } from '@material-ui/core';
 import { createUser } from '../actions/user';
 
 function Signup(props) {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [name, setName] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  function useInput(initialValue) {
+    const [value, setValue] = useState(initialValue);
+    function handleChange(e) {
+      setValue(e.target.value);
+    }
+    return [value, handleChange];
+  }
 
-  let onChangeName = (e) => {
-    setName(e.target.value);
-  };
+  const [email, setEmail] = useInput('');
+  const [password, setPassword] = useInput('');
+  const [name, setName] = useInput('');
+  const [confirmPassword, setConfirmPassword] = useInput('');
 
-  let onChangeEmail = (e) => {
-    setEmail(e.target.value);
-  };
+  // export default function DisabledTabs() {
+  //   const [value, setValue] = React.useState(2);
 
-  let onChangePassword = (e) => {
-    setPassword(e.target.value);
-  };
+  //   const handleChange = (event, newValue) => {
+  //     setValue(newValue);
+  //   };
 
-  let onChangeConfirmPassword = (e) => {
-    setConfirmPassword(e.target.value);
-  };
+  //   return (
+  //     <Paper square>
+  //       <Tabs
+  //         value={value}
+  //         indicatorColor="primary"
+  //         textColor="primary"
+  //         onChange={handleChange}
+  //         aria-label="disabled tabs example"
+  //       >
+  //         <Tab label="Active" />
+  //         <Tab label="Disabled" disabled />
+  //         <Tab label="Active" />
+  //       </Tabs>
+  //     </Paper>
+  //   );
+  // }
 
   function onSubmit(e) {
     e.preventDefault();
@@ -52,8 +68,6 @@ function Signup(props) {
           'teacher'
         )
       );
-      setPassword('');
-      setConfirmPassword('');
     }
   }
 
@@ -73,14 +87,14 @@ function Signup(props) {
         label="name"
         variant="outlined"
         value={name}
-        onChange={onChangeName}
+        onChange={setName}
       />
       <TextField
         id="email"
         label="email"
         variant="outlined"
         value={email}
-        onChange={onChangeEmail}
+        onChange={setEmail}
       />
 
       <TextField
@@ -89,7 +103,7 @@ function Signup(props) {
         label="password"
         variant="outlined"
         value={password}
-        onChange={onChangePassword}
+        onChange={setPassword}
       />
       <TextField
         id="confirm_password"
@@ -97,7 +111,7 @@ function Signup(props) {
         label="confirm password"
         variant="outlined"
         value={confirmPassword}
-        onChange={onChangeConfirmPassword}
+        onChange={setConfirmPassword}
       />
 
       <Button

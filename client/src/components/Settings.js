@@ -82,13 +82,11 @@ function Settings(props) {
 
   const handleConfirm = () => {
     let old_password = document.getElementById('old_password').value;
-    // password validation
-    if (password.trim().length === 0) {
-      console.log('blank');
+
+    if (old_password.length === 0) {
+      setSnackBar('error', 'Password is empty', 3000);
       return;
     }
-    // console.log(old_password);
-    // check password
 
     props.dispatch(
       updateUser(
@@ -99,11 +97,10 @@ function Settings(props) {
         '',
         contact,
         subject,
-        password,
         old_password
       )
     );
-    // After dispatching startUpdate
+
     handleDialogClose();
   };
 
@@ -156,16 +153,15 @@ function Settings(props) {
             value={email}
             onChange={setEmail}
           />
-          <TextField
+          {/* <TextField
             id="password"
             className={classes.formItems}
             type="password"
             label="New Password"
             variant="outlined"
-            required
             value={password}
             onChange={setPassword}
-          />
+          /> */}
 
           <TextField
             id="name"

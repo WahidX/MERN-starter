@@ -181,8 +181,7 @@ export function updateUser(
   avatar,
   contact,
   subject,
-  password,
-  old_password
+  password
 ) {
   return (dispatch) => {
     dispatch(startUpdate());
@@ -196,7 +195,6 @@ export function updateUser(
       contact: contact,
       subject: subject,
       password: password,
-      old_password: old_password,
     });
 
     var config = {
