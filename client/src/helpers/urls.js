@@ -9,4 +9,5 @@ export const APIurls = {
   createUser: () => `${API_ROOT}/auth/create-user`,
   fetchUser: () => `${API_ROOT}/auth/profile`,
   updateUser: () => `${API_ROOT}/auth/`,
+  changePassword: () => `${API_ROOT}/auth/change-password`,
 };

@@ -13,6 +13,9 @@ import {
   UPDATE_FAILED,
   LOGOUT,
   AUTHENTICATE_USER,
+  CHANGE_PASSWORD_START,
+  CHANGE_PASSWORD_SUCCESS,
+  CHANGE_PASSWORD_FAILED,
 } from './actionTypes';
 
 import { setSnackBar } from './snackbar';
@@ -61,14 +64,14 @@ export function createSession(email, password, type) {
     axios(config)
       .then(function (response) {
         dispatch(loginSuccess(response.data.user));
-        dispatch(setSnackBar('success', 'Logged in Successfully !', '3000'));
+        dispatch(setSnackBar('success', 'Logged in Successfully !', 3000));
         console.log(JSON.stringify(response.data));
         localStorage.setItem('token', response.data.token);
       })
       .catch(function (error) {
-        console.log(error);
+        // console.log('Err: ', JSON.stringify(error));
         dispatch(loginFailed(error.message));
-        // dispatch(setSnackBar('error', error.data.message, '3000'));
+        dispatch(setSnackBar('error', error.message, 3000));
       });
   };
 }
@@ -118,12 +121,12 @@ export function createUser(name, email, password, confirm_password, type) {
     axios(config)
       .then(function (response) {
         dispatch(signupSuccess(response.data.user));
-        dispatch(setSnackBar('success', 'User created successfully!', '3000'));
+        dispatch(setSnackBar('success', 'User created successfully!', 3000));
         localStorage.setItem('token', response.data.token);
       })
       .catch(function (error) {
         dispatch(signupFailed(error.message));
-        dispatch(setSnackBar('error', error.message, '3000'));
+        dispatch(setSnackBar('error', error.message, 3000));
         console.log(error.message);
       });
   };
@@ -162,7 +165,7 @@ export function logoutUser() {
   return (dispatch) => {
     localStorage.removeItem('token');
     dispatch(logout());
-    dispatch(setSnackBar('success', 'Logged out!', '3000'));
+    dispatch(setSnackBar('success', 'Logged out!', 3000));
   };
 }
 
@@ -211,13 +214,11 @@ export function updateUser(
       .then(function (response) {
         console.log('reponse: ', response.data);
         dispatch(updateSuccess(response.data.user));
-        dispatch(
-          setSnackBar('success', 'Details updated Successfully!', '3000')
-        );
+        dispatch(setSnackBar('success', 'Details updated Successfully!', 3000));
       })
       .catch(function (error) {
         dispatch(updateFailed(error.message));
-        dispatch(setSnackBar('error', error.message, '3000'));
+        dispatch(setSnackBar('error', error.message, 3000));
       });
   };
 }
@@ -238,6 +239,61 @@ export function updateSuccess(user) {
 export function updateFailed(error) {
   return {
     type: UPDATE_FAILED,
+    error,
+  };
+}
+
+// Password Change actions
+export function changePassword(oldPassword, newPassword, confirmPassword) {
+  return (dispatch) => {
+    dispatch(startPasswordChange());
+
+    var data = qs.stringify({
+      oldPassword: oldPassword,
+      newPassword: newPassword,
+      confirmPassword: confirmPassword,
+    });
+
+    var config = {
+      method: 'patch',
+      url: APIurls.changePassword(),
+      headers: {
+        Authorization: 'Bearer ' + localStorage.getItem('token'),
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      data,
+    };
+
+    axios(config)
+      .then(function (response) {
+        console.log('reponse: ', response.data);
+        dispatch(passwordChangeSuccess(response.data.user));
+        dispatch(
+          setSnackBar('success', 'Password changed Successfully!', 3000)
+        );
+      })
+      .catch(function (error) {
+        dispatch(passwordChangeFailed(error.message));
+        dispatch(setSnackBar('error', error.message, 3000));
+      });
+  };
+}
+
+export function startPasswordChange() {
+  return {
+    type: CHANGE_PASSWORD_START,
+  };
+}
+
+export function passwordChangeSuccess() {
+  return {
+    type: CHANGE_PASSWORD_SUCCESS,
+  };
+}
+
+export function passwordChangeFailed(error) {
+  return {
+    type: CHANGE_PASSWORD_FAILED,
     error,
   };
 }

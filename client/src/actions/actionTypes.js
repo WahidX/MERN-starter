@@ -13,6 +13,11 @@ export const UPDATE_START = 'UPDATE_START';
 export const UPDATE_FAILED = 'UPDATE_FAILED';
 export const UPDATE_SUCCESS = 'UPDATE_SUCCESS';
 
+// Password Change
+export const CHANGE_PASSWORD_START = 'CHANGE_PASSWORD_START';
+export const CHANGE_PASSWORD_SUCCESS = 'CHANGE_PASSWORD_SUCCESS';
+export const CHANGE_PASSWORD_FAILED = 'CHANGE_PASSWORD_FAILED';
+
 // Extra Auths
 export const AUTHENTICATE_USER = 'AUTHENTICATE_USER'; // Session restore
 export const LOGOUT = 'LOGOUT';

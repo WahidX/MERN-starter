@@ -219,16 +219,13 @@ function ButtonAppBar(props) {
           <div className={classes.grow} />
           {!isLoggedin && (
             <React.Fragment>
-              <Button
-                variant="contained"
-                color="primary"
-                style={{ marginRight: '10px' }}
-              >
+              <Button color="primary">
                 <Link to="/login" style={{ color: 'white' }}>
                   Login
                 </Link>
               </Button>
-              <Button variant="contained" color="primary">
+
+              <Button color="primary">
                 <Link to="/signup" style={{ color: 'white' }}>
                   Signup
                 </Link>
@@ -246,7 +243,7 @@ function ButtonAppBar(props) {
                 aria-label="show 17 new notifications"
                 color="inherit"
               >
-                <Badge badgeContent={17} color="secondary">
+                <Badge badgeContent={10} color="secondary">
                   <NotificationsIcon />
                 </Badge>
               </IconButton>

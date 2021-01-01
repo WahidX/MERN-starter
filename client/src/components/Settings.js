@@ -11,11 +11,16 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  Typography,
 } from '@material-ui/core';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { makeStyles } from '@material-ui/core/styles';
 
 import { setSnackBar } from '../actions/snackbar';
-import { updateUser } from '../actions/user';
+import { updateUser, changePassword } from '../actions/user';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -34,6 +39,19 @@ const useStyles = makeStyles((theme) => ({
   },
   formItems: {
     margin: '4px',
+  },
+  accordionContainer: {
+    width: '50%',
+    margin: 'auto',
+  },
+  heading: {
+    fontSize: theme.typography.pxToRem(18),
+    fontWeight: theme.typography.fontWeightRegular,
+  },
+  content: {
+    display: 'flex',
+    flexDirection: 'column',
+    margin: '10px',
   },
 }));
 
@@ -103,6 +121,31 @@ function Settings(props) {
     handleDialogClose();
   };
 
+  // For password change
+  const [oldPassword, setOldPassword] = useInput('');
+  const [newPassword, setNewPassword] = useInput('');
+  const [confirmPassword, setConfirmPassword] = useInput('');
+
+  let handlePassChange = () => {
+    if (
+      oldPassword.length === 0 ||
+      newPassword.length === 0 ||
+      confirmPassword.length === 0
+    ) {
+      props.dispatch(setSnackBar('error', 'Fields empty', 3000));
+      console.log('blank');
+      return;
+    }
+    if (newPassword !== confirmPassword) {
+      props.dispatch(setSnackBar('error', 'Passwords not matching', 3000));
+      console.log('passwords not matching');
+      return;
+    }
+
+    props.dispatch(changePassword(oldPassword, newPassword, confirmPassword));
+    console.log('got it');
+  };
+
   let PasswordConfirmDialog = (props) => {
     return (
       <Dialog
@@ -154,15 +197,6 @@ function Settings(props) {
             value={email}
             onChange={setEmail}
           />
-          {/* <TextField
-            id="password"
-            className={classes.formItems}
-            type="password"
-            label="New Password"
-            variant="outlined"
-            value={password}
-            onChange={setPassword}
-          /> */}
 
           <TextField
             id="name"
@@ -230,6 +264,62 @@ function Settings(props) {
       </form>
 
       <PasswordConfirmDialog />
+
+      {/* Password Change */}
+      <div className={classes.accordionContainer}>
+        <Accordion>
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls="panel1a-content"
+            id="password-accordion"
+          >
+            <Typography className={classes.heading}>Change Password</Typography>
+          </AccordionSummary>
+          <AccordionDetails className={classes.content}>
+            <TextField
+              id="old_password"
+              className={classes.formItems}
+              type="password"
+              label="Old Password"
+              variant="outlined"
+              value={oldPassword}
+              onChange={setOldPassword}
+            />
+            <br />
+
+            <TextField
+              id="password"
+              className={classes.formItems}
+              type="password"
+              label="New Password"
+              variant="outlined"
+              value={newPassword}
+              onChange={setNewPassword}
+            />
+
+            <TextField
+              id="confirm-password"
+              className={classes.formItems}
+              type="password"
+              label="Confirm Password"
+              variant="outlined"
+              value={confirmPassword}
+              onChange={setConfirmPassword}
+            />
+
+            <br />
+            <Button
+              variant="contained"
+              color="primary"
+              className={classes.formItems + ' updBtn'}
+              onClick={handlePassChange}
+              disabled={inProgress}
+            >
+              Confirm
+            </Button>
+          </AccordionDetails>
+        </Accordion>
+      </div>
     </React.Fragment>
   );
 }
