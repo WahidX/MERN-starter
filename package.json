@@ -1,7 +1,7 @@
 {
-  "name": "academic-portal",
+  "name": "MERN-starter",
   "version": "1.0.0",
-  "description": "Academic portal for assigning assignments and doubt clearing",
+  "description": "MERN app template, included features will be there in README",
   "main": "server.js",
   "scripts": {
     "client-install": "cd client && npm install",
@@ -12,14 +12,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/WahidX/academic-portal.git"
+    "url": "git+https://github.com/WahidX/MERN-starter.git"
   },
   "author": "droidx",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/WahidX/academic-portal/issues"
+    "url": "https://github.com/WahidX/MERN-starter/issues"
   },
-  "homepage": "https://github.com/WahidX/academic-portal#readme",
+  "homepage": "https://github.com/WahidX/MERN-starter#readme",
   "dependencies": {
     "axios": "^0.21.1",
     "bcrypt": "^5.0.0",
